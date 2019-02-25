@@ -1,4 +1,4 @@
-import { matchesWith, NO_MATCH } from './index';
+import { matchesWith, Any, NO_MATCH, isInstanceOf } from './index';
 declare var require: any;
 const assert = require('assert');
 
@@ -8,26 +8,37 @@ class TestB {};
 const valA = new TestA();
 const valB = new TestB();
 
-const test1 = matchesWith(valA, {
-  TestA: val => val,
-  TestB: () => null
-});
+// returns the result of calling the match clause for the appropriate class
+const test1 = matchesWith(valA, [
+  [isInstanceOf(TestA), val => val],
+  [isInstanceOf(TestB), () => null]
+]);
 
 assert(test1 == valA);
 
-const test2 = matchesWith(valB, {
-  TestA: () => null,
-  TestB: val => val
-});
+// same as test one, but making sure it didn't just accept the first clause
+const test2 = matchesWith(valB, [
+  [isInstanceOf(TestA), () => null],
+  [isInstanceOf(TestB), (val) => val]
+]);
 
 assert(test2 == valB);
 
-const test3 = matchesWith(1, {
-  TestA: () => null,
-  TestB: () => null,
-  None: val => val
-});
+// verifying that `Any` works as a fallback predicate
+const test3 = matchesWith(1, [
+  [isInstanceOf(TestA), () => null],
+  [isInstanceOf(TestB), () => null],
+  [Any, val => val]
+]);
 
 assert(test3 == 1);
+
+// verifies that, when no predicates match, the NO_MATCH symbol is returned
+const test4 = matchesWith(true, [
+  [isInstanceOf(TestA), () => null],
+  [isInstanceOf(TestB), () => null]
+]);
+
+assert(test4 == NO_MATCH);
 
 console.log('Tests Pass');
