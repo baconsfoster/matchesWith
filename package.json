@@ -1,6 +1,6 @@
 {
-  "name": "@baconsfoster/matchesWith",
-  "version": "0.0.1",
+  "name": "@baconsfoster/matches-with",
+  "version": "0.1.0",
   "description": "Simple pattern matching",
   "main": "lib/index.js",
   "repository": "git@github.com:baconsfoster/matchesWith.git",

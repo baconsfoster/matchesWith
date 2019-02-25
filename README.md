@@ -2,11 +2,11 @@
 A simple pattern matching library
 
 ```
-yarn add @baconsfoster/matchesWith
+yarn add @baconsfoster/matches-with
 
 // or
 
-npm install --save @baconsfoster/matchesWith
+npm install --save @baconsfoster/matches-with
 ```
 
 ## Overview
